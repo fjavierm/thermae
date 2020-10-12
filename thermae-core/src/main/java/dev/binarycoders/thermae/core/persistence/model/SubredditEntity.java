@@ -1,6 +1,6 @@
 package dev.binarycoders.thermae.core.persistence.model;
 
-import dev.binarycoders.thermae.core.ThermaeCoreConstants;
+import dev.binarycoders.thermae.core.ThermaeConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @Builder
-@Table(name = "subreddits", schema = ThermaeCoreConstants.SCHEMA)
+@Table(name = "subreddits", schema = ThermaeConstants.SCHEMA)
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubredditEntity {

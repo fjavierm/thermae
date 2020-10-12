@@ -1,6 +1,6 @@
 package dev.binarycoders.thermae.core.persistence.model;
 
-import dev.binarycoders.thermae.core.ThermaeCoreConstants;
+import dev.binarycoders.thermae.core.ThermaeConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Entity
 @Builder
-@Table(name = "posts", schema = ThermaeCoreConstants.SCHEMA)
+@Table(name = "posts", schema = ThermaeConstants.SCHEMA)
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostEntity {

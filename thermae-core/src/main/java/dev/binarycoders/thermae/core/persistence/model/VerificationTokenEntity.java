@@ -1,6 +1,6 @@
 package dev.binarycoders.thermae.core.persistence.model;
 
-import dev.binarycoders.thermae.core.ThermaeCoreConstants;
+import dev.binarycoders.thermae.core.ThermaeConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.time.Instant;
 @Data
 @Entity
 @Builder
-@Table(name = "verification_tokens", schema = ThermaeCoreConstants.SCHEMA)
+@Table(name = "verification_tokens", schema = ThermaeConstants.SCHEMA)
 @NoArgsConstructor
 @AllArgsConstructor
 public class VerificationTokenEntity {

@@ -1,6 +1,6 @@
 package dev.binarycoders.thermae.core.persistence.model;
 
-import dev.binarycoders.thermae.core.ThermaeCoreConstants;
+import dev.binarycoders.thermae.core.ThermaeConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.time.Instant;
 @Data
 @Entity
 @Builder
-@Table(name = "comments", schema = ThermaeCoreConstants.SCHEMA)
+@Table(name = "comments", schema = ThermaeConstants.SCHEMA)
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentEntity {
