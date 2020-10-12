@@ -1,0 +1,15 @@
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/model/Subreddit.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/model/Comment.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/repository/SubredditRepository.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/repository/UserRepository.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/model/User.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/repository/PostRepository.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/repository/CommentRepository.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/repository/VerificationTokenRepository.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/model/VoteType.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/model/VerificationToken.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/ThermaeApplication.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/config/ThremaeCorePersistenceConfig.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/model/Vote.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/repository/VoteRepository.java
+/home/fjavierm/sourcecode/thermae/thermae-core/src/main/java/dev/binarycoders/thermae/core/persistence/model/Post.java
