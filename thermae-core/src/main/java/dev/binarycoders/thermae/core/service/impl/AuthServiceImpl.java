@@ -1,5 +1,6 @@
 package dev.binarycoders.thermae.core.service.impl;
 
+import dev.binarycoders.thermae.core.exception.ThermaeException;
 import dev.binarycoders.thermae.core.model.NotificationEmail;
 import dev.binarycoders.thermae.core.persistence.model.UserEntity;
 import dev.binarycoders.thermae.core.persistence.model.VerificationTokenEntity;
@@ -48,6 +49,24 @@ public class AuthServiceImpl implements AuthService {
             .build();
 
         mailService.sendMail(notification); // TODO Move to a spring event
+    }
+
+    @Override
+    @Transactional
+    public void verifyAccount(final String token) {
+        final var verificationToken = verificationTokenRepository.findByToken(token)
+            .orElseThrow(() -> new ThermaeException("Invalid token"));
+
+        fetchUserAndEnable(verificationToken);
+    }
+
+    private void fetchUserAndEnable(final VerificationTokenEntity verificationToken) {
+        final var userId = verificationToken.getUser().getId();
+        final var user = userRepository.findById(userId)
+            .orElseThrow(() -> new ThermaeException(String.format("User for token %s not found", verificationToken.getToken())));
+
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 
     private String generateVerificationToken(final UserEntity user) {

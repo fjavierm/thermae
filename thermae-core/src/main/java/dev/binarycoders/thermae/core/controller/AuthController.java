@@ -4,10 +4,7 @@ import dev.binarycoders.thermae.api.model.RegisterRequest;
 import dev.binarycoders.thermae.core.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/auth")
@@ -22,5 +19,12 @@ public class AuthController {
         authService.signup(request.getUsername(), request.getEmail(), request.getPassword());
 
         return ResponseEntity.ok("User registration successful");
+    }
+
+    @GetMapping(value = "/account-verification/{token}")
+    public ResponseEntity<String> verifyAccount(@PathVariable final String token) {
+        authService.verifyAccount(token);
+
+        return ResponseEntity.ok("Account activated successfully");
     }
 }
