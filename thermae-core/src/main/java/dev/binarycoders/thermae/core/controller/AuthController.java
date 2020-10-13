@@ -1,5 +1,7 @@
 package dev.binarycoders.thermae.core.controller;
 
+import dev.binarycoders.thermae.api.model.AuthenticationResponse;
+import dev.binarycoders.thermae.api.model.LoginRequest;
 import dev.binarycoders.thermae.api.model.RegisterRequest;
 import dev.binarycoders.thermae.core.service.AuthService;
 import lombok.AllArgsConstructor;
@@ -26,5 +28,11 @@ public class AuthController {
         authService.verifyAccount(token);
 
         return ResponseEntity.ok("Account activated successfully");
+    }
+
+    @PostMapping(value = "/login")
+    public AuthenticationResponse login(@RequestBody final LoginRequest request) {
+        // TODO Add validation
+        return authService.login(request.getUsername(), request.getPassword());
     }
 }

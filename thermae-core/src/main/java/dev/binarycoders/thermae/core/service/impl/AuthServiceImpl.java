@@ -1,5 +1,6 @@
 package dev.binarycoders.thermae.core.service.impl;
 
+import dev.binarycoders.thermae.api.model.AuthenticationResponse;
 import dev.binarycoders.thermae.core.exception.ThermaeException;
 import dev.binarycoders.thermae.core.model.NotificationEmail;
 import dev.binarycoders.thermae.core.persistence.model.UserEntity;
@@ -7,8 +8,12 @@ import dev.binarycoders.thermae.core.persistence.model.VerificationTokenEntity;
 import dev.binarycoders.thermae.core.persistence.repository.UserRepository;
 import dev.binarycoders.thermae.core.persistence.repository.VerificationTokenRepository;
 import dev.binarycoders.thermae.core.service.AuthService;
+import dev.binarycoders.thermae.core.service.JwtProviderService;
 import dev.binarycoders.thermae.core.service.MailService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +32,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final MailService mailService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtProviderService jwtProviderService;
 
     @Override
     @Transactional
@@ -58,6 +65,20 @@ public class AuthServiceImpl implements AuthService {
             .orElseThrow(() -> new ThermaeException("Invalid token"));
 
         fetchUserAndEnable(verificationToken);
+    }
+
+    @Override
+    public AuthenticationResponse login(final String username, final String password) {
+        final var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final var authenticationToken = jwtProviderService.generateToken(authentication);
+
+        return AuthenticationResponse.builder()
+            .username(username)
+            .authenticationToken(authenticationToken)
+            .build();
     }
 
     private void fetchUserAndEnable(final VerificationTokenEntity verificationToken) {
