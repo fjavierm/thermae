@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
             .body(token)
             .build();
 
-        mailService.sendMail(notification); // TODO Move to a spring event
+        mailService.sendMail(notification); // TODO Add a queue system
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,7 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender sender;
     private final MailContentBuilderService mailContentBuilderService;
 
+    @Async
     @Override
     public void sendMail(NotificationEmail notification) {
         final MimeMessagePreparator preparator = mimeMessage -> {
