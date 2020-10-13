@@ -32,11 +32,10 @@ public class MailServiceImpl implements MailService {
         };
 
         try {
-            // sender.send(preparator); TODO Setup a SMTP server (mailtrap.io OR dockerised server for testing)
+            sender.send(preparator);
             log.info("Activation email for user with email {} sent", notification.getRecipient());
-            log.info("Sent token: [{}]", notification.getBody()); // TODO Remove when SMTP server has been set
         } catch (final MailException e) {
-            throw new ThermaeException(String.format("Exception occurred when sending email to address %s", notification.getRecipient()));
+            throw new ThermaeException(String.format("Exception occurred when sending email to address %s", notification.getRecipient()), e);
         }
     }
 }

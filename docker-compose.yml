@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   database:
-    container_name: redditclone-postgres
+    container_name: thermae-postgres
     image: "postgres" # use latest official postgres version
     env_file:
       - database.env # configure postgres
@@ -10,6 +10,13 @@ services:
       - postgres:/data/postgres
     ports:
       - 5432:5432
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
 
 volumes:
   postgres:

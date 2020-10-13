@@ -1,8 +1,8 @@
 package dev.binarycoders.thermae.core.service.impl;
 
+import dev.binarycoders.thermae.core.config.ThermaeConfigProperties;
 import dev.binarycoders.thermae.core.service.MailContentBuilderService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -11,14 +11,12 @@ import org.thymeleaf.context.Context;
 @AllArgsConstructor
 public class MailContentBuilderServiceImpl implements MailContentBuilderService {
 
-    @Value("${thermae.config.server}")
-    private String serverUrl;
-
+    private final ThermaeConfigProperties thermaeConfigProperties;
     private final TemplateEngine templateEngine;
 
     @Override
     public String build(final String token) {
-        final String verificationUrl = serverUrl + "/api/auth/account-verification";
+        final String verificationUrl = thermaeConfigProperties.getServer() + "/api/auth/account-verification";
         final Context context = new Context();
 
         context.setVariable("url", verificationUrl);
