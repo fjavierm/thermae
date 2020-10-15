@@ -8,7 +8,7 @@ import dev.binarycoders.thermae.core.persistence.model.VerificationTokenEntity;
 import dev.binarycoders.thermae.core.persistence.repository.UserRepository;
 import dev.binarycoders.thermae.core.persistence.repository.VerificationTokenRepository;
 import dev.binarycoders.thermae.core.service.AuthService;
-import dev.binarycoders.thermae.core.service.JwtProviderService;
+import dev.binarycoders.thermae.core.security.JwtProvider;
 import dev.binarycoders.thermae.core.service.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private final VerificationTokenRepository verificationTokenRepository;
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
-    private final JwtProviderService jwtProviderService;
+    private final JwtProvider jwtProvider;
 
     @Override
     @Transactional
@@ -73,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final var authenticationToken = jwtProviderService.generateToken(authentication);
+        final var authenticationToken = jwtProvider.generateToken(authentication);
 
         return AuthenticationResponse.builder()
             .username(username)
