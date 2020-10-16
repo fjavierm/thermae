@@ -7,13 +7,15 @@ import dev.binarycoders.thermae.core.persistence.model.UserEntity;
 import dev.binarycoders.thermae.core.persistence.model.VerificationTokenEntity;
 import dev.binarycoders.thermae.core.persistence.repository.UserRepository;
 import dev.binarycoders.thermae.core.persistence.repository.VerificationTokenRepository;
-import dev.binarycoders.thermae.core.service.AuthService;
 import dev.binarycoders.thermae.core.security.JwtProvider;
+import dev.binarycoders.thermae.core.service.AuthService;
 import dev.binarycoders.thermae.core.service.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,6 +81,15 @@ public class AuthServiceImpl implements AuthService {
             .username(username)
             .authenticationToken(authenticationToken)
             .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserEntity getCurrentUser() {
+        final User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return userRepository.findByUsername(principal.getUsername())
+            .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
 
     private void fetchUserAndEnable(final VerificationTokenEntity verificationToken) {

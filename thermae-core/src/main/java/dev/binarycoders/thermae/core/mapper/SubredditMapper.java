@@ -12,16 +12,16 @@ public class SubredditMapper implements Mapper<Subreddit, SubredditEntity> {
     }
 
     @Override
-    public Subreddit toApi(final SubredditEntity subredditEntity) {
-        if (subredditEntity == null) {
+    public Subreddit toApi(final SubredditEntity entity) {
+        if (entity == null) {
             return null;
         }
 
         return Subreddit.builder()
-            .id(subredditEntity.getId())
-            .name(subredditEntity.getName())
-            .description(subredditEntity.getDescription())
-            .numberOfPosts(subredditEntity.getPosts().size())
+            .id(entity.getId())
+            .name(entity.getName())
+            .description(entity.getDescription())
+            .numberOfPosts(entity.getPosts().size())
             .build();
     }
 

@@ -1,14 +1,12 @@
 package dev.binarycoders.thermae.core.service.impl;
 
 import dev.binarycoders.thermae.api.model.Subreddit;
-import dev.binarycoders.thermae.core.exception.ThermaeException;
 import dev.binarycoders.thermae.core.mapper.SubredditMapper;
 import dev.binarycoders.thermae.core.persistence.repository.SubredditRepository;
-import dev.binarycoders.thermae.core.persistence.repository.UserRepository;
+import dev.binarycoders.thermae.core.service.AuthService;
 import dev.binarycoders.thermae.core.service.SubredditService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,21 +23,16 @@ public class SubredditServiceImpl implements SubredditService {
     private static final SubredditMapper SUBREDDIT_MAPPER = SubredditMapper.getInstance();
 
     private final SubredditRepository subredditRepository;
-    private final UserRepository userRepository;
+    private final AuthService authService;
 
     @Override
     @Transactional
     public Subreddit save(final Subreddit subreddit) {
-        final var username = SecurityContextHolder.getContext().getAuthentication().getName();
         final var entity = SUBREDDIT_MAPPER.toEntity(subreddit);
-        final var user = userRepository.findByUsername(username);
-
-        if (user.isEmpty()) {
-            throw new ThermaeException("User not allowed to create subreddits");
-        }
+        final var user = authService.getCurrentUser();
 
         entity.setCreated(Instant.now());
-        entity.setUser(user.get());
+        entity.setUser(user);
 
         final var saved = subredditRepository.save(entity);
 
@@ -57,6 +50,7 @@ public class SubredditServiceImpl implements SubredditService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Subreddit> getById(final Long id) {
         final var entity = subredditRepository.findById(id);
 
