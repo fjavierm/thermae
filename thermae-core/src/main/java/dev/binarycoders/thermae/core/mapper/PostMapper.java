@@ -24,6 +24,8 @@ public class PostMapper implements Mapper<Post, PostEntity> {
             .created(entity.getCreated())
             .url(entity.getUrl())
             .voteCount(entity.getVoteCount())
+            .commentCount(entity.getComments() != null ? entity.getComments().size() : 0)
+            .duration("todo")  // TODO Needs some time ago message generator
             .userId(entity.getUser() != null ? entity.getUser().getId() : null)
             .subredditId(entity.getSubreddit() != null ? entity.getSubreddit().getId() : null)
             .build();

@@ -28,13 +28,13 @@ public class SubredditServiceImpl implements SubredditService {
     @Override
     @Transactional
     public Subreddit save(final Subreddit subreddit) {
-        final var entity = SUBREDDIT_MAPPER.toEntity(subreddit);
+        final var subredditEntity = SUBREDDIT_MAPPER.toEntity(subreddit);
         final var user = authService.getCurrentUser();
 
-        entity.setCreated(Instant.now());
-        entity.setUser(user);
+        subredditEntity.setCreated(Instant.now());
+        subredditEntity.setUser(user);
 
-        final var saved = subredditRepository.save(entity);
+        final var saved = subredditRepository.save(subredditEntity);
 
         subreddit.setId(saved.getId());
 

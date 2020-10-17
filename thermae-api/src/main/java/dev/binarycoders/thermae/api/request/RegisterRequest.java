@@ -1,4 +1,4 @@
-package dev.binarycoders.thermae.api.model;
+package dev.binarycoders.thermae.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class RegisterRequest {
 
     private String username;
+    private String email;
     private String password;
 }

@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Entity
@@ -47,4 +48,7 @@ public class PostEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subreddit_id", referencedColumnName = "id", nullable = false)
     private SubredditEntity subreddit;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private List<CommentEntity> comments;
 }

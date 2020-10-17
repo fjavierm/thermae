@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,16 +34,22 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment save(final Comment comment) {
-        final var entity = COMMENT_MAPPER.toEntity(comment);
+        final var commentEntity = COMMENT_MAPPER.toEntity(comment);
         final var user = authService.getCurrentUser();
         final var post = postRepository.findById(comment.getPostId())
             .orElseThrow(() -> new ThermaeException("Post not found to create a comment"));
 
-        entity.setUser(user);
-        entity.setPost(post);
-        entity.setCreated(Instant.now());
+        commentEntity.setUser(user);
+        commentEntity.setPost(post);
+        commentEntity.setCreated(Instant.now());
 
-        final var saved = commentRepository.save(entity);
+        if (post.getComments() == null) {
+            post.setComments(new ArrayList<>());
+        }
+        post.getComments().add(commentEntity);
+
+        postRepository.save(post);
+        final var saved = commentRepository.save(commentEntity);
 
         comment.setId(saved.getId());
 

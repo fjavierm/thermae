@@ -1,8 +1,8 @@
 package dev.binarycoders.thermae.core.controller;
 
-import dev.binarycoders.thermae.api.model.AuthenticationResponse;
-import dev.binarycoders.thermae.api.model.LoginRequest;
-import dev.binarycoders.thermae.api.model.RegisterRequest;
+import dev.binarycoders.thermae.api.response.AuthenticationResponse;
+import dev.binarycoders.thermae.api.request.LoginRequest;
+import dev.binarycoders.thermae.api.request.RegisterRequest;
 import dev.binarycoders.thermae.core.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

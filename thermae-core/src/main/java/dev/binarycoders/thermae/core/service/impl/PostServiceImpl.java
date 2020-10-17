@@ -29,17 +29,17 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public Post save(final Post post) {
-        final var entity = POST_MAPPER.toEntity(post);
+        final var postEntity = POST_MAPPER.toEntity(post);
         final var user = authService.getCurrentUser();
         final var subreddit = subredditRepository.findById(post.getSubredditId())
-            .orElseThrow(() -> new ThermaeException("Subreddit not found to create post"));
+            .orElseThrow(() -> new ThermaeException("Subreddit not found to create a post"));
 
-        entity.setUser(user);
-        entity.setSubreddit(subreddit);
-        entity.setCreated(Instant.now());
-        entity.setVoteCount(0L);
+        postEntity.setUser(user);
+        postEntity.setSubreddit(subreddit);
+        postEntity.setCreated(Instant.now());
+        postEntity.setVoteCount(0L);
 
-        final var saved = postRepository.save(entity);
+        final var saved = postRepository.save(postEntity);
 
         post.setId(saved.getId());
 

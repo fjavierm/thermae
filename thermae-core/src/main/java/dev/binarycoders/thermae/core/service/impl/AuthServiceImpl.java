@@ -1,6 +1,6 @@
 package dev.binarycoders.thermae.core.service.impl;
 
-import dev.binarycoders.thermae.api.model.AuthenticationResponse;
+import dev.binarycoders.thermae.api.response.AuthenticationResponse;
 import dev.binarycoders.thermae.core.exception.ThermaeException;
 import dev.binarycoders.thermae.core.model.NotificationEmail;
 import dev.binarycoders.thermae.core.persistence.model.UserEntity;

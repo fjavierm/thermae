@@ -18,7 +18,9 @@ public class Post {
     private String url;
     private String description;
     private Instant created;
-    private Long voteCount;
     private Long userId;
     private Long subredditId;
+    private Long voteCount;
+    private Integer commentCount;
+    private String duration; // TODO Needs some time ago message generator
 }
