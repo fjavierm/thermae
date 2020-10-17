@@ -1,5 +1,6 @@
 package dev.binarycoders.thermae.core.service;
 
+import dev.binarycoders.thermae.api.request.RefreshTokenRequest;
 import dev.binarycoders.thermae.api.response.AuthenticationResponse;
 import dev.binarycoders.thermae.core.persistence.model.UserEntity;
 
@@ -11,4 +12,6 @@ public interface AuthService {
     AuthenticationResponse login(String username, String password);
 
     UserEntity getCurrentUser();
+
+    AuthenticationResponse refreshToken(RefreshTokenRequest request);
 }

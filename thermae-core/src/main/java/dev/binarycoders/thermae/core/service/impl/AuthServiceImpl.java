@@ -1,5 +1,6 @@
 package dev.binarycoders.thermae.core.service.impl;
 
+import dev.binarycoders.thermae.api.request.RefreshTokenRequest;
 import dev.binarycoders.thermae.api.response.AuthenticationResponse;
 import dev.binarycoders.thermae.core.exception.ThermaeException;
 import dev.binarycoders.thermae.core.model.NotificationEmail;
@@ -10,6 +11,7 @@ import dev.binarycoders.thermae.core.persistence.repository.VerificationTokenRep
 import dev.binarycoders.thermae.core.security.JwtProvider;
 import dev.binarycoders.thermae.core.service.AuthService;
 import dev.binarycoders.thermae.core.service.MailService;
+import dev.binarycoders.thermae.core.service.RefreshTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     @Transactional
@@ -80,6 +83,8 @@ public class AuthServiceImpl implements AuthService {
         return AuthenticationResponse.builder()
             .username(username)
             .authenticationToken(authenticationToken)
+            .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+            .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeMillis()))
             .build();
     }
 
@@ -89,7 +94,22 @@ public class AuthServiceImpl implements AuthService {
         final User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return userRepository.findByUsername(principal.getUsername())
-            .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
+            .orElseThrow(() -> new UsernameNotFoundException(String.format("User name not found %s ", principal.getUsername())));
+    }
+
+    @Override
+    public AuthenticationResponse refreshToken(final RefreshTokenRequest request) {
+        refreshTokenService.validateRefreshToken(request.getRefreshToken());
+        final var token = jwtProvider.generateTokenWithUserId(request.getUserId());
+        final var user = userRepository.findById(request.getUserId())
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return AuthenticationResponse.builder()
+            .username(user.getUsername())
+            .authenticationToken(token)
+            .refreshToken(request.getRefreshToken())
+            .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeMillis()))
+            .build();
     }
 
     private void fetchUserAndEnable(final VerificationTokenEntity verificationToken) {

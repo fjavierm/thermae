@@ -1,10 +1,13 @@
 package dev.binarycoders.thermae.core.security.impl;
 
+import dev.binarycoders.thermae.core.config.ThermaeConfigProperties;
 import dev.binarycoders.thermae.core.exception.ThermaeException;
+import dev.binarycoders.thermae.core.persistence.repository.UserRepository;
 import dev.binarycoders.thermae.core.security.JwtProvider;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,11 +15,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.time.Instant;
+import java.util.Date;
 
 @Component
 public class JwtProviderImpl implements JwtProvider {
 
     private KeyStore keyStore;
+
+    private final ThermaeConfigProperties thermaeConfigProperties;
+    private final UserRepository userRepository;
+
+    public JwtProviderImpl(final ThermaeConfigProperties thermaeConfigProperties, final UserRepository userRepository) {
+        this.thermaeConfigProperties = thermaeConfigProperties;
+        this.userRepository = userRepository;
+    }
 
     @PostConstruct
     public void init() {
@@ -38,6 +51,19 @@ public class JwtProviderImpl implements JwtProvider {
         return Jwts.builder()
             .setSubject(principal.getUsername())
             .signWith(getPrivateKey())
+            .setExpiration(Date.from(Instant.now().plusMillis(thermaeConfigProperties.getJwtExpirationTimeMillis())))
+            .compact();
+    }
+
+    @Override
+    public String generateTokenWithUserId(final Long userId) {
+        final var user = userRepository.findById(userId)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return Jwts.builder()
+            .setSubject(user.getUsername())
+            .signWith(getPrivateKey())
+            .setExpiration(Date.from(Instant.now().plusMillis(thermaeConfigProperties.getJwtExpirationTimeMillis())))
             .compact();
     }
 
@@ -58,6 +84,11 @@ public class JwtProviderImpl implements JwtProvider {
         final var claims = parser.parseClaimsJws(token).getBody();
 
         return claims.getSubject();
+    }
+
+    @Override
+    public Long getJwtExpirationTimeMillis() {
+        return thermaeConfigProperties.getJwtExpirationTimeMillis();
     }
 
     private PublicKey getPublicKey() {

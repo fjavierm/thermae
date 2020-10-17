@@ -10,4 +10,5 @@ import org.springframework.context.annotation.Configuration;
 public class ThermaeConfigProperties {
 
     private String server;
+    private Long jwtExpirationTimeMillis;
 }

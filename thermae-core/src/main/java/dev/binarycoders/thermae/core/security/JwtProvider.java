@@ -6,7 +6,11 @@ public interface JwtProvider {
 
     String generateToken(Authentication authentication);
 
+    String generateTokenWithUserId(Long userId);
+
     boolean validateToken(String jwt);
 
     String getUsernameFromToken(String token);
+
+    Long getJwtExpirationTimeMillis();
 }
