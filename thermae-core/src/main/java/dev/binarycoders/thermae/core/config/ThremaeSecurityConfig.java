@@ -1,9 +1,23 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 fjavierm
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+ * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
 package dev.binarycoders.thermae.core.config;
 
 import dev.binarycoders.thermae.core.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,6 +52,16 @@ public class ThremaeSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
             .authorizeRequests()
             .antMatchers("/api/auth/**")
+            .permitAll()
+            .antMatchers(HttpMethod.GET, "/api/subreddits")
+            .permitAll()
+            .antMatchers(HttpMethod.GET, "/api/posts/")
+            .permitAll()
+            .antMatchers(HttpMethod.GET, "/api/posts/**")
+            .permitAll()
+            .antMatchers("/v3/api-docs/**",
+                "/swagger-ui.html",
+                "/swagger-ui/**")
             .permitAll()
             .anyRequest()
             .authenticated();

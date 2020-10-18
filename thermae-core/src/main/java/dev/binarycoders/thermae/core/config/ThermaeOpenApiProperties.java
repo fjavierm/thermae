@@ -11,19 +11,14 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package dev.binarycoders.thermae.core.security;
+package dev.binarycoders.thermae.core.config;
 
-import org.springframework.security.core.Authentication;
+import lombok.Data;
 
-public interface JwtProvider {
+@Data
+public class ThermaeOpenApiProperties {
 
-    String generateToken(Authentication authentication);
-
-    String generateTokenWithUserId(Long userId);
-
-    boolean validateToken(String jwt);
-
-    String getUsernameFromToken(String token);
-
-    Long getJwtExpirationTimeMillis();
+    private String title;
+    private String description;
+    private String version;
 }

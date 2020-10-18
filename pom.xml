@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2020 fjavierm
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  ~ INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+  ~ PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+  ~ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+  ~ OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  ~ DEALINGS IN THE SOFTWARE.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -16,7 +29,7 @@
   <packaging>pom</packaging>
 
   <name>thermae</name>
-  <description>Reddit clone</description>
+  <description>Social community</description>
 
   <modules>
     <module>thermae-core</module>
@@ -30,7 +43,7 @@
     <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
     <javax-el.version>3.0.0</javax-el.version>
     <jjwt.version>0.11.2</jjwt.version>
-    <timeago.version>4.0.1</timeago.version>
+    <springdoc-openapi-ui.version>1.4.8</springdoc-openapi-ui.version>
   </properties>
 
   <dependencyManagement>
@@ -65,6 +78,18 @@
         <groupId>io.jsonwebtoken</groupId>
         <artifactId>jjwt-jackson</artifactId>
         <version>${jjwt.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc-openapi-ui.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-security</artifactId>
+        <version>${springdoc-openapi-ui.version}</version>
       </dependency>
 
     </dependencies>
