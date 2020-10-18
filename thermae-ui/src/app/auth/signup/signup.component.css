@@ -11,17 +11,27 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {SignupComponent} from "./auth/signup/signup.component";
+.register-section {
+  margin: 100px;
+}
 
-const routes: Routes = [
-  {path: 'signup', component: SignupComponent}
-];
+.sign-up {
+  background-color: #0079D3;
+  color: aliceblue;
+  fill: #0079D3;
+  border: 1px solid #0079D3;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  line-height: 24px;
+  text-transform: uppercase;
+  padding: 3px 16px;
+  opacity: 1;
+}
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
 }
